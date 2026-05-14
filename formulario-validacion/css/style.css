@@ -1,0 +1,386 @@
+/* ============================================
+   ARCADE SESSION — Videogame UI CSS
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+/* ── VARIABLES ── */
+:root {
+  --bg:         #050510;
+  --bg2:        #0a0a1a;
+  --panel:      #0d0d2b;
+  --border:     #00f0ff;
+  --border2:    #ff00cc;
+  --accent1:    #00f0ff;   /* cyan neon */
+  --accent2:    #ff00cc;   /* pink neon  */
+  --accent3:    #ffe600;   /* yellow     */
+  --text:       #e0f7ff;
+  --text-dim:   #5a8fa0;
+  --success:    #00ff88;
+  --danger:     #ff3355;
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-hud:   'Orbitron', sans-serif;
+  --font-mono:  'Share Tech Mono', monospace;
+  --glow-c:     0 0 8px #00f0ff, 0 0 20px #00f0ff55;
+  --glow-p:     0 0 8px #ff00cc, 0 0 20px #ff00cc55;
+  --glow-y:     0 0 8px #ffe600, 0 0 20px #ffe60055;
+  --radius:     4px;
+  --speed:      0.25s;
+}
+
+/* ── RESET & BASE ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 39px,
+      rgba(0,240,255,0.04) 39px,
+      rgba(0,240,255,0.04) 40px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 39px,
+      rgba(0,240,255,0.04) 39px,
+      rgba(0,240,255,0.04) 40px
+    );
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Scanline overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(0,0,0,0.18) 3px,
+    rgba(0,0,0,0.18) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── MAIN CONTAINERS ── */
+#app,
+#regist,
+#pagina {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* ── PANEL / CARD ── */
+#app > div,
+#regist > div,
+#pagina > div {
+  background: var(--panel);
+  border: 2px solid var(--border);
+  box-shadow: var(--glow-c), inset 0 0 40px rgba(0,240,255,0.04);
+  border-radius: var(--radius);
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 440px;
+  position: relative;
+  animation: panelIn 0.4s ease both;
+}
+
+/* Corner decorations */
+#app > div::before, #app > div::after,
+#regist > div::before, #regist > div::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+}
+#app > div::before, #regist > div::before {
+  top: -2px; left: -2px;
+  border-top: 3px solid var(--accent2);
+  border-left: 3px solid var(--accent2);
+}
+#app > div::after, #regist > div::after {
+  bottom: -2px; right: -2px;
+  border-bottom: 3px solid var(--accent2);
+  border-right: 3px solid var(--accent2);
+}
+
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)   scale(1);    }
+}
+
+/* ── HEADINGS ── */
+h1 {
+  font-family: var(--font-pixel);
+  font-size: clamp(10px, 2.5vw, 14px);
+  color: var(--accent1);
+  text-shadow: var(--glow-c);
+  letter-spacing: 2px;
+  text-align: center;
+  margin-bottom: 28px;
+  line-height: 1.8;
+}
+
+/* Auto title above forms */
+form::before {
+  display: block;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  color: var(--accent2);
+  text-shadow: var(--glow-p);
+  letter-spacing: 3px;
+  text-align: center;
+  margin-bottom: 28px;
+}
+#loginForm::before    { content: '▶  LOGIN  ◀'; }
+#registerForm::before { content: '★  REGISTER  ★'; }
+
+/* ── LABELS ── */
+label {
+  display: block;
+  font-family: var(--font-hud);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent1);
+  margin-bottom: 6px;
+  margin-top: 18px;
+}
+label:first-of-type { margin-top: 0; }
+
+/* ── INPUTS ── */
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 100%;
+  background: #070718;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  padding: 10px 14px;
+  outline: none;
+  transition: border-color var(--speed), box-shadow var(--speed), background var(--speed);
+  caret-color: var(--accent1);
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: var(--accent2);
+  box-shadow: var(--glow-p);
+  background: #0b0b20;
+}
+
+input::placeholder { color: var(--text-dim); font-size: 12px; }
+
+/* ── BUTTONS ── */
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: var(--radius);
+  border: 2px solid;
+  cursor: pointer;
+  transition: all var(--speed);
+  padding: 12px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer on hover */
+button::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  transition: left 0.4s ease;
+}
+button:hover::before { left: 160%; }
+
+/* Primary — cyan */
+button[type="submit"],
+#login,
+#register {
+  background: transparent;
+  color: var(--accent1);
+  border-color: var(--accent1);
+  box-shadow: var(--glow-c);
+  width: 100%;
+  margin-top: 24px;
+}
+button[type="submit"]:hover,
+#login:hover,
+#register:hover {
+  background: var(--accent1);
+  color: var(--bg);
+  box-shadow: 0 0 16px #00f0ff, 0 0 40px #00f0ff88;
+}
+button[type="submit"]:active,
+#login:active,
+#register:active {
+  transform: scale(0.96);
+}
+
+/* Secondary — pink (back / volver) */
+#volver,
+#cerrar {
+  background: transparent;
+  color: var(--accent2);
+  border-color: var(--accent2);
+  box-shadow: var(--glow-p);
+  width: 100%;
+  margin-top: 12px;
+}
+#volver:hover,
+#cerrar:hover {
+  background: var(--accent2);
+  color: var(--bg);
+  box-shadow: 0 0 16px #ff00cc, 0 0 40px #ff00cc88;
+}
+
+/* Tertiary — yellow (register nav) */
+#registroir {
+  background: transparent;
+  color: var(--accent3);
+  border-color: var(--accent3);
+  box-shadow: var(--glow-y);
+  width: 100%;
+  margin-top: 12px;
+}
+#registroir:hover {
+  background: var(--accent3);
+  color: var(--bg);
+  box-shadow: 0 0 16px #ffe600, 0 0 40px #ffe60088;
+}
+
+/* ── DIVIDER ── */
+hr, .divider {
+  border: none;
+  border-top: 1px solid rgba(0,240,255,0.15);
+  margin: 24px 0;
+}
+
+/* ── ALERTS (native override via styled container) ── */
+.alert {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  margin-top: 16px;
+  line-height: 1.8;
+  animation: flashIn 0.3s ease;
+}
+.alert-success { border: 1px solid var(--success); color: var(--success); background: rgba(0,255,136,0.06); }
+.alert-danger   { border: 1px solid var(--danger);  color: var(--danger);  background: rgba(255,51,85,0.06);  }
+
+@keyframes flashIn {
+  from { opacity: 0; transform: scaleY(0.8); }
+  to   { opacity: 1; transform: scaleY(1);   }
+}
+
+/* ── DASHBOARD (#pagina) ── */
+#pagina > div {
+  max-width: 720px;
+  border-color: var(--accent2);
+  box-shadow: var(--glow-p), inset 0 0 40px rgba(255,0,204,0.04);
+}
+
+#pagina h1 {
+  font-size: clamp(11px, 3vw, 16px);
+  color: var(--accent3);
+  text-shadow: var(--glow-y);
+  margin-bottom: 32px;
+}
+
+/* Player card strip */
+.player-card {
+  background: rgba(0,240,255,0.05);
+  border: 1px solid rgba(0,240,255,0.2);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  font-family: var(--font-hud);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--accent1);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.player-card::before { content: '▶'; color: var(--accent2); }
+
+/* HP / stat bars */
+.stat-bar-wrap {
+  margin-bottom: 14px;
+}
+.stat-label {
+  font-family: var(--font-hud);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--text-dim);
+  margin-bottom: 5px;
+}
+.stat-bar {
+  height: 8px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid rgba(0,240,255,0.12);
+}
+.stat-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  box-shadow: 0 0 6px var(--accent1);
+  border-radius: 2px;
+  transition: width 1s ease;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+  #app > div,
+  #regist > div,
+  #pagina > div { padding: 28px 20px; }
+
+  button { font-size: 8px; padding: 11px 14px; }
+}
+
+/* ── CURSOR BLINK on inputs ── */
+@keyframes blink {
+  0%, 100% { opacity: 1; } 50% { opacity: 0; }
+}
+
+/* ── PIXEL SCROLLBAR ── */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent2); }
+
+/* ── SELECTION ── */
+::selection { background: var(--accent2); color: var(--bg); }
