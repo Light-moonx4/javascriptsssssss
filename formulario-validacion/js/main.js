@@ -1,8 +1,8 @@
 const usuariosEnStorage = JSON.parse(localStorage.getItem("users")) || [];
 const users = [
-  { username: "neyder.ramirez", password: "123Admin.**" },
-  { username: "juan.bustamante", password: "123Admin.**" },
-  { username: "megaman.x", password:"3126197001.**"},
+  { username: "neyder.ramirez", password: "123Admin.**",avatar:"https://upload.wikimedia.org/wikipedia/commons/b/ba/Flow_Blender_splash_cropped.png" },
+  { username: "juan.bustamante", password: "123Admin.**",avatar:"https://static.wikia.nocookie.net/mangakaart/images/d/dc/Kratos.jpg/revision/latest?cb=20130521130952&path-prefix=es" },
+  { username: "megaman.x", password:"3126197001.**",avatar:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIsUppRQ5LtlYH7SQaxFG0DBRWdSnHsyDRcLxX266XP7yeNMlgeY-6Uc9C-bpIKwylKUMDKV-zSJ6y5cqQqDA64Zj-14yvZpSUTbTJN3jcRw&s=10"},
   ...usuariosEnStorage 
 ];
 
@@ -38,13 +38,24 @@ form.addEventListener("submit", (event) => {
   );
 
   if (userFound) {
-    sessionStorage.setItem("user", userFound.username);
-    localStorage.setItem("user", userFound.username);
-    alert(`¡Bienvenido ${userFound.username}!`);
-    localStorage.setItem("userFound", "dashoot.html");
-    window.location.href = "dashoot.html";
-    document.getElementById("login").addEventListener("click",userFound)
-  } else {
+
+  sessionStorage.setItem(
+    "user",
+    JSON.stringify(userFound)
+  );
+
+  localStorage.setItem(
+    "user",
+    JSON.stringify(userFound)
+  );
+
+  alert(`¡Bienvenido ${userFound.username}!`);
+
+  window.location.href = "dashoot.html";
+ document.getElementById("login").addEventListener("click",userFound)
+ }
+    
+   else {
     alert("Usuario o contraseña incorrectos");
   }
 });
